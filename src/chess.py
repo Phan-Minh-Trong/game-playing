@@ -192,7 +192,7 @@ class Ruleset:
                 else:
                     is_valid_direction = is_valid_direction & 0xB
                     
-            if(is_valid_direction & 0x2): # Check if right moves is valid
+            if(is_valid_direction & 0x2): # Check if up moves is valid
                 index_on_next_square = self.__get_pcs_index_on_pos([rook_pos[0]+increment_move, rook_pos[1]])
                 if(rook_pos[0]+increment_move >= MIN_COL_POS):
                     if(index_on_next_square == -1):
@@ -204,7 +204,7 @@ class Ruleset:
                 else:
                     is_valid_direction = is_valid_direction & 0xD
                     
-            if(is_valid_direction & 0x1): # Check if right moves is valid
+            if(is_valid_direction & 0x1): # Check if down moves is valid
                 index_on_next_square = self.__get_pcs_index_on_pos([rook_pos[0]-increment_move, rook_pos[1]])
                 if(rook_pos[0]-increment_move >= MIN_COL_POS):
                     if(index_on_next_square == -1):
