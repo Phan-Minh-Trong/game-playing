@@ -55,6 +55,12 @@ class Piece:
     def get_value(self):
         return self.__value
 
+    def clear_info(self):
+        self.__current_pos = [-1,-1]
+        self.__id = 0
+        self.__value = 0
+
+
 class Board:
     def __init__(self):
         self.__current_pcs_pos = []
@@ -134,6 +140,12 @@ class Board:
 
     def get_current_pcs_pos(self):
         return self.__current_pcs_pos
+    
+    def remove_piece_from_board(self, pos):
+        for p in self.__current_pcs_pos:
+            if(p.get_pos() == pos):
+                p.clear_info()
+                break
     
 
 class Ruleset:
