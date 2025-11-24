@@ -181,50 +181,50 @@ class Ruleset:
         
         while(is_valid_direction & 0x0F):
             if(is_valid_direction & 0x8): # Check if left moves is valid
-                index_on_next_square = self.__get_pcs_index_on_pos([rook_pos[0], rook_pos[1]-increment_move])
                 if(rook_pos[1]-increment_move >= MIN_COL_POS):
+                    index_on_next_square = self.__get_pcs_index_on_pos([rook_pos[0], rook_pos[1]-increment_move])
                     if(index_on_next_square == -1):
-                        valid_moves.append([rook_pos[0], rook_pos[1]-increment_move])
-                    elif(self.__piece_state[index_on_next_square].get_id() ^ rook_id < 0):
                         valid_moves.append([rook_pos[0], rook_pos[1]-increment_move])
                     else:
                         is_valid_direction = is_valid_direction & 0x7
+                        if(self.__piece_state[index_on_next_square].get_id() ^ rook_id < 0):
+                            valid_moves.append([rook_pos[0], rook_pos[1]-increment_move])
                 else:
                     is_valid_direction = is_valid_direction & 0x7
             
             if(is_valid_direction & 0x4): # Check if right moves is valid
-                index_on_next_square = self.__get_pcs_index_on_pos([rook_pos[0], rook_pos[1]+increment_move])
-                if(rook_pos[1]+increment_move >= MIN_COL_POS):
+                if(rook_pos[1]+increment_move <= MAX_COL_POS):
+                    index_on_next_square = self.__get_pcs_index_on_pos([rook_pos[0], rook_pos[1]+increment_move])
                     if(index_on_next_square == -1):
-                        valid_moves.append([rook_pos[0], rook_pos[1]+increment_move])
-                    elif(self.__piece_state[index_on_next_square].get_id() ^ rook_id < 0):
                         valid_moves.append([rook_pos[0], rook_pos[1]+increment_move])
                     else:
                         is_valid_direction = is_valid_direction & 0xB
+                        if(self.__piece_state[index_on_next_square].get_id() ^ rook_id < 0):
+                            valid_moves.append([rook_pos[0], rook_pos[1]+increment_move])
                 else:
                     is_valid_direction = is_valid_direction & 0xB
                     
             if(is_valid_direction & 0x2): # Check if up moves is valid
-                index_on_next_square = self.__get_pcs_index_on_pos([rook_pos[0]+increment_move, rook_pos[1]])
-                if(rook_pos[0]+increment_move >= MIN_COL_POS):
+                if(rook_pos[0]+increment_move <= MAX_ROW_POS):
+                    index_on_next_square = self.__get_pcs_index_on_pos([rook_pos[0]+increment_move, rook_pos[1]])
                     if(index_on_next_square == -1):
-                        valid_moves.append([rook_pos[0]+increment_move, rook_pos[1]])
-                    elif(self.__piece_state[index_on_next_square].get_id() ^ rook_id < 0):
                         valid_moves.append([rook_pos[0]+increment_move, rook_pos[1]])
                     else:
                         is_valid_direction = is_valid_direction & 0xD
+                        if(self.__piece_state[index_on_next_square].get_id() ^ rook_id < 0):
+                            valid_moves.append([rook_pos[0]+increment_move, rook_pos[1]])
                 else:
                     is_valid_direction = is_valid_direction & 0xD
                     
             if(is_valid_direction & 0x1): # Check if down moves is valid
-                index_on_next_square = self.__get_pcs_index_on_pos([rook_pos[0]-increment_move, rook_pos[1]])
-                if(rook_pos[0]-increment_move >= MIN_COL_POS):
+                if(rook_pos[0]-increment_move >= MIN_ROW_POS):
+                    index_on_next_square = self.__get_pcs_index_on_pos([rook_pos[0]-increment_move, rook_pos[1]])
                     if(index_on_next_square == -1):
-                        valid_moves.append([rook_pos[0]-increment_move, rook_pos[1]])
-                    elif(self.__piece_state[index_on_next_square].get_id() ^ rook_id < 0):
                         valid_moves.append([rook_pos[0]-increment_move, rook_pos[1]])
                     else:
                         is_valid_direction = is_valid_direction & 0xE
+                        if(self.__piece_state[index_on_next_square].get_id() ^ rook_id < 0):
+                            valid_moves.append([rook_pos[0]-increment_move, rook_pos[1]])
                 else:
                     is_valid_direction = is_valid_direction & 0xE
                 
@@ -281,7 +281,7 @@ class Chess:
         self.__rules = Ruleset()
     
     def test(self):
-        self.__board.update_piece_pos([2,1], [5,1])
+        self.__board.remove_piece_from_board([2,1])
         pieces_pos = self.__board.get_current_pcs_pos()
         for p in pieces_pos:
             print(p.get_pos())
