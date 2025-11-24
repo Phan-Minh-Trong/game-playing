@@ -233,8 +233,23 @@ class Ruleset:
         return valid_moves
     
     def __get_valid_knight_moves(self, index):
-        pass
-    
+        valid_moves = []
+        mask = [[1,1],[1,-1],[-1,1],[-1,-1]]
+        steps = [[1,2],[2,1]]
+        knight_pos = self.__piece_state[index].get_pos()
+
+        for s in steps:
+            for m in mask:
+                next_pos = [knight_pos[0] + (s[0] * m[0]), knight_pos[1] + (s[1] * m[1])]
+                if(next_pos[0] < MIN_ROW_POS or next_pos[0] > MAX_ROW_POS or next_pos[1] < MIN_COL_POS or next_pos[1] > MAX_COL_POS):
+                    continue
+                
+                next_pos_index = self.__get_pcs_index_on_pos(next_pos)
+                if(next_pos_index == -1 or self.__piece_state[index].get_id() ^ self.__piece_state[next_pos_index].get_id() < 0):
+                    valid_moves.append(next_pos)
+                    
+        return valid_moves
+
     def __get_valid_bishop_moves(self, index):
         pass
     
@@ -281,12 +296,15 @@ class Chess:
         self.__rules = Ruleset()
     
     def test(self):
-        self.__board.remove_piece_from_board([2,1])
+        self.__board.update_piece_pos([1,2],[4,5])
         pieces_pos = self.__board.get_current_pcs_pos()
+        
+        print("All pieces position on the board")
         for p in pieces_pos:
             print(p.get_pos())
-        print("Valid rook moves")
-        moves = self.__rules.get_valid_moves([1,1], self.__board.get_current_pcs_pos())
+            
+        print("Valid knight moves")
+        moves = self.__rules.get_valid_moves([4,5], self.__board.get_current_pcs_pos())
         print(moves)
     
     def run_chess(self):
